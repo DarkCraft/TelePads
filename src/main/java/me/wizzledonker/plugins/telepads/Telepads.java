@@ -31,8 +31,12 @@ public class Telepads extends JavaPlugin {
     public int telepad_teleport_time = 3;
     public boolean nodestmsg_enable = true;
     
+    public boolean cooldown_enable = false;
+    public int cooldown_seconds = 5;
+    
     public String teleport_msg = "Teleported to %pad%";
     public String wait_msg = "Teleporting in %time%, stay on the pad!";
+    public String cooldown_msg = "Please wait %time% before using this pad!";
     public boolean teleport_msg_enable = true;
     
     FileConfiguration padConfig = null;
@@ -154,10 +158,15 @@ public class Telepads extends JavaPlugin {
             getConfig().addDefault("pads.properties.nodestmsg_enabled", true);
             getConfig().addDefault("pads.properties.teleport_time", 3);
             
+            //Cooldown
+            getConfig().addDefault("cooldown.enable", cooldown_enable);
+            getConfig().addDefault("cooldown.seconds", cooldown_seconds);
+            
             //Messages
             getConfig().addDefault("messages.delete", "Teleport pad %pad% removed.");
             getConfig().addDefault("messages.link", "Successfully linked %pad% to %pad2%");
             getConfig().addDefault("messages.wait", "Teleporting in %time%, stay on the pad!");
+            getConfig().addDefault("messages.cooldown", cooldown_msg);
             getConfig().addDefault("messages.teleport.enable", true);
             getConfig().addDefault("messages.teleport.message", "Successfully teleported to %pad%");
             
@@ -168,10 +177,14 @@ public class Telepads extends JavaPlugin {
         telepad_item_id = getConfig().getInt("pads.properties.type_id", 1);
         telepad_teleport_time = getConfig().getInt("pads.properties.teleport_time", 3);
         
+        cooldown_enable = getConfig().getBoolean("cooldown.enable", cooldown_enable);
+        cooldown_seconds = getConfig().getInt("cooldown.seconds", cooldown_seconds);
+        
         nodestmsg_enable = getConfig().getBoolean("pads.properties.nodestmsg_enabled", true);
         teleport_msg = getConfig().getString("messages.teleport.message");
         teleport_msg_enable = getConfig().getBoolean("messages.teleport.enable");
         wait_msg = getConfig().getString("messages.wait");
+        cooldown_msg = getConfig().getString("messages.cooldown", cooldown_msg);
         
         if (!new File(getDataFolder(), "pads.yml").exists()) {
             System.out.println(this + ": No pads found! Generating header...");
