@@ -38,7 +38,7 @@ public class telepadsPlayerListener implements Listener{
         final Player player = event.getPlayer();
         if (onPad.contains(player)) return;
         if (player.hasPermission("telepads.use")) {
-            Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
+            Block block = to.getBlock().getRelative(BlockFace.DOWN);
             if (!checkPad(block)) {
                 return;
             }
